@@ -3,6 +3,6 @@ import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "bar_chart",
+  base: "/bar_chart/",
   plugins: [react()],
 });
