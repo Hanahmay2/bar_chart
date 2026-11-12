@@ -167,7 +167,7 @@
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -4.5px;
     border: 5px solid transparent;
@@ -181,4 +181,41 @@
     right: 0;
     border-right-color: var(--border);
   }
+}
+
+.chart-container {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.chart-header {
+  margin-left: 150px;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.chart-header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.chart-header p {
+  font-size: 16px;
+  margin: 4px 0 0;
+  color: black;
+}
+
+.chart-footer {
+  margin-left: 150px;
+  margin-top: -5px;
+  text-align: left;
+}
+
+.chart-footer p {
+  font-size: 12px;
+  color: #666666;
+  margin: 0;
+  line-height: 1.5;
 }

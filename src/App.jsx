@@ -1,122 +1,125 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import "./App.css";
+import * as d3 from "d3";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const data = [
+    { count: 6, name: "Hantavirus" },
+    { count: 7, name: "Dengue" },
+    { count: 7, name: "Tularemia" },
+    { count: 9, name: "Ebola" },
+    { count: 11, name: "E. coli" },
+    { count: 15, name: "Tuberculosis" },
+    { count: 17, name: "Salmonella" },
+    { count: 18, name: "Vaccinia" },
+    { count: 54, name: "Brucella" },
+  ];
+
+  const width = 800;
+  const height = 500;
+
+  const margin = {
+    top: 40,
+    right: 40,
+    bottom: 0,
+    left: 150,
+  };
+
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+
+  const sortedData = [...data].sort((a, b) => b.count - a.count);
+
+  const xScale = d3.scaleLinear().domain([0, 55]).range([0, innerWidth]);
+  const yScale = d3
+    .scaleBand()
+    .domain(sortedData.map((d) => d.name))
+    .range([0, innerHeight])
+    .paddingInner(0.35)
+    .paddingOuter(0.1);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div>
+      <div className="chart-container">
+        <div className="chart-header">
+          <h1>Escape artists</h1>
+          <p>Number of laboratory-acquired infections, 1970-2021</p>
         </div>
-        <div>
-          <h1>Get started</h1>
+
+        <svg width={width} height={height}>
+          <g transform={`translate(${margin.left}, ${margin.top})`}>
+            {xScale.ticks(11).map((tick) => (
+              <line
+                key={tick}
+                x1={xScale(tick)}
+                x2={xScale(tick)}
+                y1={0}
+                y2={innerHeight}
+                stroke="#d9d9d9"
+                strokeWidth={1}
+              />
+            ))}
+            {xScale.ticks(11).map((tick) => (
+              <text
+                key={tick}
+                x={xScale(tick)}
+                y={-12}
+                textAnchor="middle"
+                fill="#808080"
+                fontSize="12px"
+              >
+                {tick}
+              </text>
+            ))}
+            {sortedData.map((d) => (
+              <rect
+                key={d.name}
+                x={0}
+                y={yScale(d.name)}
+                width={xScale(d.count)}
+                height={yScale.bandwidth()}
+                fill="#076fa2"
+              />
+            ))}
+            {/* Y-axis line */}
+            <line
+              x1={0}
+              x2={0}
+              y1={0}
+              y2={innerHeight}
+              stroke="black"
+              strokeWidth={1}
+            />
+            {sortedData.map((d) => {
+              const barWidth = xScale(d.count);
+              const isSmall = barWidth < 90;
+
+              return (
+                <text
+                  key={d.name}
+                  x={isSmall ? barWidth + 8 : 8}
+                  y={yScale(d.name) + yScale.bandwidth() / 2}
+                  textAnchor="start"
+                  dominantBaseline="central"
+                  fill={isSmall ? "#076fa2" : "white"}
+                  fontSize="14px"
+                  opacity="0.9"
+                >
+                  {d.name}
+                </text>
+              );
+            })}
+          </g>
+        </svg>
+        <div className="chart-footer">
           <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+            Sources: Laboratory-Acquired Infection Database; Americal Biological
+            Safety Association
           </p>
+          <p>The Economist</p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
