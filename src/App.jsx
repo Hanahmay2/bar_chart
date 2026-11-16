@@ -114,7 +114,7 @@ function App() {
         </svg>
         <div className="chart-footer">
           <p>
-            Sources: Laboratory-Acquired Infection Database; Americal Biological
+            Sources: Laboratory-Acquired Infection Database; American Biological
             Safety Association
           </p>
           <p>The Economist</p>
