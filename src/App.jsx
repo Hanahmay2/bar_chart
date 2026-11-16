@@ -40,6 +40,8 @@ function App() {
   return (
     <div>
       <div className="chart-container">
+        <div className="red-line"></div>
+        <div className="red-block"></div>
         <div className="chart-header">
           <h1>Escape artists</h1>
           <p>Number of laboratory-acquired infections, 1970-2021</p>
